@@ -27,9 +27,12 @@ def run_epoch(model, loader, criterion, device, optimizer=None, scaler=None):
     return sum(losses) / len(y_true), metrics, y_true, y_prob
 
 
-def save_checkpoint(path: Path, model, architecture: str, class_names: list[str], image_size: int, metrics: dict[str, float]) -> None:
+def save_checkpoint(path: Path, model, architecture: str, class_names: list[str], image_size: int, metrics: dict[str, float], run_metadata: dict | None = None) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    torch.save({"architecture": architecture, "class_names": class_names, "image_size": image_size, "metrics": metrics, "state_dict": model.state_dict()}, path)
+    payload = {"architecture": architecture, "class_names": class_names, "image_size": image_size, "metrics": metrics, "state_dict": model.state_dict()}
+    if run_metadata is not None:
+        payload["run_metadata"] = run_metadata
+    torch.save(payload, path)
 
 
 def report(y_true: np.ndarray, probabilities: np.ndarray, class_names: list[str]) -> str:

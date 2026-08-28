@@ -17,6 +17,11 @@ def evaluation_transform(image_size: int) -> transforms.Compose:
     return transforms.Compose([transforms.Resize(int(image_size * 1.14)), transforms.CenterCrop(image_size), transforms.ToTensor(), transforms.Normalize(IMAGENET_MEAN, IMAGENET_STD)])
 
 
+def evaluation_display_transform(image_size: int) -> transforms.Compose:
+    """Apply the evaluation geometry without tensor conversion or normalization."""
+    return transforms.Compose([transforms.Resize(int(image_size * 1.14)), transforms.CenterCrop(image_size)])
+
+
 def imagefolder(root: Path, transform: transforms.Compose) -> datasets.ImageFolder:
     if not root.is_dir(): raise FileNotFoundError(f"Dataset folder does not exist: {root}")
     dataset = datasets.ImageFolder(root, transform=transform)
