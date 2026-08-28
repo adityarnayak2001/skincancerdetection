@@ -6,10 +6,7 @@ Research notebooks for skin-lesion classification and melanoma detection using t
 
 ```text
 notebooks/
-  pytorch_backbone_search_bat_pso.ipynb        # PyTorch backbones with Bat/PSO search
-  efficientnet_metadata_attention.ipynb        # EfficientNet with metadata and attention
   utilities/                                                                 # data preparation notebooks
-  archive/                                                                   # preserved historical notebook variants
 data/
   raw/                                                                       # local CSV datasets (not committed)
 models/                                                                      # local trained checkpoints (not committed)
@@ -25,7 +22,7 @@ models/                                                                      # l
    ```
 
 3. Keep the source CSV files under `data/raw/` and checkpoints under `models/`.
-4. Open the relevant notebook with JupyterLab or VS Code and update any old Colab/Kaggle file paths before running it.
+4. Open the relevant notebook with JupyterLab or VS Code.
 
 ## Data
 
@@ -35,13 +32,9 @@ The original local data files are intentionally ignored by Git:
 - `hmnist_8_8_L.csv`, `hmnist_8_8_RGB.csv` — 8x8 HMNIST pixel datasets.
 - `hmnist_28_28_L.csv`, `hmnist_28_28_RGB.csv` — 28x28 HMNIST pixel datasets.
 
-## Notes
-
-Several historical notebooks were created in Google Colab and may import Colab/Kaggle helpers or require environment-specific packages. The versions in `notebooks/archive/` are retained as reference material; no notebook content was deleted during the cleanup.
-
 ## Improved training and testing
 
-The legacy notebooks are retained for reference. New reusable scripts in `scripts/` replace their hard-coded paths and fixed two-class assumptions.
+Reusable scripts in `scripts/` provide the supported training, evaluation, and inference workflow.
 
 The expected input layout is an `ImageFolder` directory:
 
@@ -72,13 +65,6 @@ python scripts/infer_random.py --checkpoint models/skin_lesion_mobilenet.pth --i
 
 ## Notebook guide
 
-- `pytorch_backbone_search_bat_pso.ipynb` — compares PyTorch MobileNetV2, InceptionV3, and ResNet18, with Bat Algorithm and Particle Swarm Optimization experiments.
-- `efficientnet_metadata_attention.ipynb` — TensorFlow EfficientNet ensemble workflow that combines image features, patient metadata, attention, and progressive sprinkle augmentation.
 - `utilities/image_flip_rotation_augmentation.ipynb` — creates rotated and flipped image variants.
 - `utilities/keras_tensor_batch_export.ipynb` — converts dataset images to batched NumPy tensors for Keras training.
 - `utilities/ham10000_binary_dataset_split.ipynb` — prepares non-melanoma examples and creates train/validation splits.
-- `utilities/keras_mobilenet_pso_tuning.ipynb` — MobileNet training with PSO hyperparameter tuning.
-- `archive/keras_mobilenet_256px_lr_0_001.ipynb` — 256px TensorFlow/Keras MobileNet variant using learning rate 0.001.
-- `archive/keras_mobilenet_256px_lr_0_01.ipynb` — 256px TensorFlow/Keras MobileNet variant using learning rate 0.01.
-- `archive/keras_mobilenet_256px_colab_cam.ipynb` — Colab-oriented 256px MobileNet variant with class-activation-map steps.
-- `archive/keras_mobilenet_512px_cam_tensorboard.ipynb` — 512px Keras MobileNet experiment with CAM and TensorBoard code.
