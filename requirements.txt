@@ -6,6 +6,7 @@ seaborn
 scipy
 scikit-learn
 tqdm
+jupyterlab
 
 # Image processing
 Pillow

@@ -39,6 +39,37 @@ The original local data files are intentionally ignored by Git:
 
 Several historical notebooks were created in Google Colab and may import Colab/Kaggle helpers or require environment-specific packages. The versions in `notebooks/archive/` are retained as reference material; no notebook content was deleted during the cleanup.
 
+## Improved training and testing
+
+The legacy notebooks are retained for reference. New reusable scripts in `scripts/` replace their hard-coded paths and fixed two-class assumptions.
+
+The expected input layout is an `ImageFolder` directory:
+
+```text
+data/images/
+  train/<class-name>/*.jpg
+  valid/<class-name>/*.jpg
+  test/<class-name>/*.jpg
+```
+
+Train with normalized augmentation, weighted sampling for class imbalance, label smoothing, validation macro-F1 checkpoint selection, learning-rate reduction, and early stopping:
+
+```bash
+python scripts/train.py --data-dir data/images --architecture mobilenet_v2 --output models/skin_lesion_mobilenet.pth
+```
+
+Evaluate strictly on the held-out test images:
+
+```bash
+python scripts/evaluate.py --checkpoint models/skin_lesion_mobilenet.pth --test-dir data/images/test
+```
+
+Classify one random image and create a Grad-CAM localization panel. The heatmap marks image regions that most influenced the predicted class; it is an explanation aid, not a clinical lesion segmentation or diagnosis.
+
+```bash
+python scripts/infer_random.py --checkpoint models/skin_lesion_mobilenet.pth --image-dir data/images/test --output outputs/random_gradcam.png
+```
+
 ## Notebook guide
 
 - `pytorch_backbone_search_bat_pso.ipynb` — compares PyTorch MobileNetV2, InceptionV3, and ResNet18, with Bat Algorithm and Particle Swarm Optimization experiments.
