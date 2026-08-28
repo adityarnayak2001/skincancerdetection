@@ -1,0 +1,21 @@
+# Core data and visualisation
+numpy
+pandas
+matplotlib
+seaborn
+scipy
+scikit-learn
+tqdm
+
+# Image processing
+Pillow
+opencv-python
+
+# Deep learning (select versions appropriate for your Python/CUDA environment)
+tensorflow
+torch
+torchvision
+
+# Used by selected legacy notebooks
+pyswarm
+indago
